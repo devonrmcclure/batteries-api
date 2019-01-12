@@ -23,6 +23,6 @@ Route::group(['middleware' => ['cors']], function () {
 
 
 Route::group(['middleware' => ['auth:api']], function () {
-	Route::get('/user', 'UserController@index');
+	Route::get('/locations', 'LocationController@index');
 	Route::post('/logout', 'AuthController@logout');
 });
