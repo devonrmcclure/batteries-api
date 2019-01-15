@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Spatie\QueryBuilder\Exceptions\InvalidIncludeQuery;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -46,6 +48,19 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+		if ($request->wantsJson() && $exception instanceof ModelNotFoundException) {
+			return response()->json([
+				'error' => 'Not found',
+				'status' => 404
+			])->setStatusCode(404);
+		}
+
+		if ($request->wantsJson() && $exception instanceof InvalidIncludeQuery) {
+			return response()->json([
+				'error' => $exception->getMessage(),
+				'status' => 400
+			])->setStatusCode(400);
+		}
         return parent::render($request, $exception);
     }
 }
