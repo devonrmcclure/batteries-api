@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Spatie\QueryBuilder\Exceptions\InvalidIncludeQuery;
+use Spatie\QueryBuilder\Exceptions\InvalidFieldQuery;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -50,7 +51,7 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
 		$response = null;
-		if ($request->wantsJson()) {
+		if ($request->wantsJson() || $request->ajax()) {
 			switch(true) {
 				case $exception instanceof ModelNotFoundException:
 					$response = response()->json([
@@ -64,6 +65,13 @@ class Handler extends ExceptionHandler
 						'message' => $exception->getMessage(),
 						'status' => 400
 					])->setStatusCode(400);
+					break;
+
+				case $exception instanceof InvalidFieldQuery:
+					$response = response()->json([
+						'message' => $exception->getMessage(),
+						'status' => 400
+					])->setStatusCode(404);
 					break;
 
 				case $exception instanceof NotFoundHttpException:

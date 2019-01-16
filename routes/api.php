@@ -18,19 +18,19 @@ use Illuminate\Http\Request;
 // });
 
 Route::group(['middleware' => ['cors']], function () {
-	Route::post('/login', 'AuthController@login');
+	Route::post('/login', 'Api\AuthController@login');
 });
 
 
 Route::group(['middleware' => ['auth:api']], function () {
-	Route::post('/logout', 'AuthController@logout');
+	Route::post('/logout', 'Api\AuthController@logout');
 
 	// TODO: POST/PUT/PATCH/DEL for admin section editing
-	Route::get('/locations', 'LocationController@index');
+	Route::apiResource('locations', 'Api\LocationController');
 
 	// TODO: POST/PUT/PATCH/DEL for admin section editing
-	Route::resource('categories', 'CategoryController');
+	Route::apiResource('categories', 'Api\CategoryController');
 
 	// TODO: POST/PUT/PATCH/DEL for admin section editing
-	Route::resource('products', 'ProductController');
+	Route::apiResource('products', 'Api\ProductController');
 });

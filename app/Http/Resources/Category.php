@@ -18,10 +18,10 @@ class Category extends JsonResource
 			'type' => 'categories',
 			'id' => $this->id,
 			'attributes' => [
-				'name' => $this->name,
-				'image' => $this->image,
-				'created_at' => (string)$this->created_at,
-				'updated_at' => (string)$this->updated_at
+				'name' => $this->when($this->name, $this->name),
+				'image' => $this->when($this->image, $this->image),
+				'created' => $this->when($this->created_at, (string)$this->created_at),
+				'updated' => $this->when($this->updated_at, (string)$this->updated_at)
 			],
 			'grandparents' => $this->collection ($this->whenLoaded('grandparents')),
 			'grandchildren' => $this->collection ($this->whenLoaded('grandchildren')),

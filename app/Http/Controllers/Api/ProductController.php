@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Product;
 use Illuminate\Http\Request;
@@ -8,8 +8,9 @@ use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\Product as ProductResource;
 
-class ProductController extends Controller
+class ProductController extends ApiController
 {
+	// Show all products, paginated, optionally with category.
     public function index() {
 		$products = QueryBuilder::for(Product::class)
 			->allowedIncludes(['category'])
@@ -24,6 +25,12 @@ class ProductController extends Controller
 
 		$product = QueryBuilder::for(Product::class)
 			->allowedIncludes(['category'])
+			->allowedFields([
+				'id', 'sku', 'description', 'price', 
+				'sale_price', 'pst', 'gst', 'image', 
+				'brand', 'model', 'order_number', 
+				'created_at', 'updated_at'
+			])
 			->findOrFail($id);
 
 		return new ProductResource($product);
