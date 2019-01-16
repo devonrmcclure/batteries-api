@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Spatie\QueryBuilder\Exceptions\InvalidIncludeQuery;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -48,19 +49,34 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-		if ($request->wantsJson() && $exception instanceof ModelNotFoundException) {
-			return response()->json([
-				'error' => 'Not found',
-				'status' => 404
-			])->setStatusCode(404);
+		$response = null;
+		if ($request->wantsJson()) {
+			switch(true) {
+				case $exception instanceof ModelNotFoundException:
+					$response = response()->json([
+						'message' => $exception->getMessage(),
+						'status' => 404
+					])->setStatusCode(404);
+					break;
+				
+				case $exception instanceof InvalidIncludeQuery:
+					$response = response()->json([
+						'message' => $exception->getMessage(),
+						'status' => 400
+					])->setStatusCode(400);
+					break;
+
+				case $exception instanceof NotFoundHttpException:
+					$response = response()->json([
+						'message' => 'Not found',
+						'status' => 404
+					])->setStatusCode(404);
+					break;
+			}
+
+			return $response;
 		}
 
-		if ($request->wantsJson() && $exception instanceof InvalidIncludeQuery) {
-			return response()->json([
-				'error' => $exception->getMessage(),
-				'status' => 400
-			])->setStatusCode(400);
-		}
         return parent::render($request, $exception);
     }
 }

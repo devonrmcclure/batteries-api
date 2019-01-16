@@ -3,6 +3,7 @@
 use Faker\Generator as Faker;
 
 $factory->define(\App\Product::class, function (Faker $faker) {
+	$categories = App\Category::all();
     return [
 		'sku' => random_int(1, 100),
 		'description' => str_random(100),
@@ -16,6 +17,7 @@ $factory->define(\App\Product::class, function (Faker $faker) {
 		'model_number' => str_random(5),
 		'order_number' => str_random(5),
 		'last_purchase_vendor' => 0,
-		'current_purchase_vendor' => 0
+		'current_purchase_vendor' => 0,
+		'category_id' => $categories->random()->id
     ];
 });

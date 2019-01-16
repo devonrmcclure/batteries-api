@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Location::class, function (Faker $faker) {
+$factory->define(\App\Location::class, function (Faker $faker) {
 	return [
 		'name' => $faker->name,
 		'user_id' => 1,

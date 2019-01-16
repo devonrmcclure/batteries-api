@@ -37,7 +37,7 @@ class AuthController extends Controller
 			}
 
 			return response()->json([
-				'error' => $message,
+				'message' => $message,
 				'status' => $e->getCode()
 			], $e->getCode());
 		}

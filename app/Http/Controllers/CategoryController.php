@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Category;
+use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Resources\CategoryCollection;
 use App\Http\Resources\Category as CategoryResource;
 
-use Spatie\QueryBuilder\QueryBuilder;
 
 class CategoryController extends Controller
 {

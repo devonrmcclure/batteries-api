@@ -28,7 +28,12 @@ class CreateProductsTable extends Migration
 			$table->string('order_number');
 			$table->integer('last_purchase_vendor')->nullable();
 			$table->integer('current_purchase_vendor')->nullable();
+			$table->integer('category_id')->unsigned()->nullable();
 			$table->timestamps();
+
+			$table->foreign('category_id')->references('id')->on('categories')
+				->onUpdate('cascade')
+				->onDelete('set null');
         });
     }
 

@@ -13,20 +13,23 @@ class Category extends JsonResource
      * @return array
      */
     public function toArray($request)
-    {	
-
-        return [
-			'data' => [
+    {
+		return [
+			'type' => 'categories',
+			'id' => $this->id,
+			'attributes' => [
 				'name' => $this->name,
 				'image' => $this->image,
-				'ancestors' => $this->collection($this->whenLoaded('grandparents')),
-				'descendants' => $this->collection($this->whenLoaded('grandchildren')),
-				'parents' => $this->collection($this->whenLoaded('parents')),
-				'children' => $this->collection($this->whenLoaded('children')),
 				'created_at' => (string)$this->created_at,
 				'updated_at' => (string)$this->updated_at
 			],
-			'status' => 200
+			'grandparents' => $this->collection ($this->whenLoaded('grandparents')),
+			'grandchildren' => $this->collection ($this->whenLoaded('grandchildren')),
+			'parents' => $this->collection ($this->whenLoaded('parents')),
+			'children' => $this->collection ($this->whenLoaded('children')),
+			'links' => [
+				'self' => route('categories.show', ['categories' => $this->id]),
+			],
 		];
-    }
+	}
 }

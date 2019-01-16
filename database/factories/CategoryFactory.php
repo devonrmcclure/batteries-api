@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(\App\Category::class, function (Faker $faker) {
+$factory->define(App\Category::class, function (Faker $faker) {
     return [
 		'name' => $faker->name,
 		'image' => str_random(5) . '.jpg',
