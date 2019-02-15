@@ -25,12 +25,19 @@ Route::group(['middleware' => ['cors']], function () {
 Route::group(['middleware' => ['auth:api']], function () {
 	Route::post('/logout', 'Api\AuthController@logout');
 
-	// TODO: POST/PUT/PATCH/DEL for admin section editing
-	Route::apiResource('locations', 'Api\LocationController');
+	Route::apiResource('locations', 'Api\LocationController')->only([
+		'index', 'show'
+	]);
 
-	// TODO: POST/PUT/PATCH/DEL for admin section editing
-	Route::apiResource('categories', 'Api\CategoryController');
+	Route::apiResource('categories', 'Api\CategoryController')->only([
+		'index', 'show'
+	]);
+		
+	Route::apiResource('products', 'Api\ProductController')->only([
+		'index', 'show'
+	]);
 
-	// TODO: POST/PUT/PATCH/DEL for admin section editing
-	Route::apiResource('products', 'Api\ProductController');
+	Route::apiResource('staff', 'Api\StaffController')->only([
+		'index', 'show'
+	]);
 });

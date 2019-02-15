@@ -8,6 +8,8 @@ use Spatie\QueryBuilder\Exceptions\InvalidIncludeQuery;
 use Spatie\QueryBuilder\Exceptions\InvalidFieldQuery;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use League\OAuth2\Server\Exception\OAuthServerException;
 
 class Handler extends ExceptionHandler
 {
@@ -16,9 +18,9 @@ class Handler extends ExceptionHandler
      *
      * @var array
      */
-    protected $dontReport = [
-        //
-    ];
+    // protected $dontReport = [
+    //     \League\OAuth2\Server\Exception\OAuthServerException::class,
+    // ];
 
     /**
      * A list of the inputs that are never flashed for validation exceptions.
@@ -38,7 +40,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        parent::report($exception);
+		parent::report($exception);
     }
 
     /**
@@ -80,6 +82,25 @@ class Handler extends ExceptionHandler
 						'status' => 404
 					])->setStatusCode(404);
 					break;
+
+				case $exception instanceof MethodNotAllowedHttpException:
+					$response = response()->json([
+						'message' => 'Not allowed',
+						'status' => 405
+					])->setStatusCode(405);
+					break;
+				
+				case $exception instanceof \Illuminate\Auth\AuthenticationException:
+					$response = response()->json([
+						'message' => 'bad token',
+						'status' => 401
+					])->setStatusCode(401);
+
+				default:
+					$response = response()->json([
+						'message' => 'Something went wrong',
+						'status' => 500
+					])->setStatusCode(500);
 			}
 
 			return $response;

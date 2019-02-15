@@ -23,10 +23,10 @@ class Category extends JsonResource
 				'created' => $this->when($this->created_at, (string)$this->created_at),
 				'updated' => $this->when($this->updated_at, (string)$this->updated_at)
 			],
-			'grandparents' => $this->collection ($this->whenLoaded('grandparents')),
-			'grandchildren' => $this->collection ($this->whenLoaded('grandchildren')),
-			'parents' => $this->collection ($this->whenLoaded('parents')),
-			'children' => $this->collection ($this->whenLoaded('children')),
+			'grandparents' => $this->collection($this->whenLoaded('grandparents')),
+			'grandchildren' => $this->collection($this->whenLoaded('grandchildren')),
+			'parents' => $this->collection($this->whenLoaded('parents')),
+			'children' => $this->collection($this->whenLoaded('children')),
 			'links' => [
 				'self' => route('categories.show', ['categories' => $this->id]),
 			],
