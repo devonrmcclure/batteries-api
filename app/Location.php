@@ -7,6 +7,14 @@ use Illuminate\Notifications\Notifiable;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+
+/**
+ * This class is meant for each location to log in to the POS and be the
+ * tie-in point for location specific things. (Staff, sales, POs, ROs, etc).
+ *
+ * The actual user class is meant for Admin control of the API itself - adding,
+ * deleting, updating products, categories, etc.
+ */
 class Location extends Authenticatable
 {
 	use HasApiTokens;
@@ -29,7 +37,18 @@ class Location extends Authenticatable
 		'password', 'remember_token',
 	];
 
-	public function user() {
+	public function user()
+	{
 		return $this->belongsTo('App\User');
+	}
+
+	public function staff()
+	{
+		return $this->hasMany('App\Staff');
+	}
+
+	public function customers()
+	{
+		return $this->hasMany('App\Customer');
 	}
 }
