@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Staff;
 use Illuminate\Http\Request;
-use App\Http\Resources\Staff as StaffResource;
+use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Resources\StaffCollection;
+use App\Http\Resources\Staff as StaffResource;
 
 class StaffController extends ApiController
 {
@@ -16,7 +17,11 @@ class StaffController extends ApiController
      */
     public function index()
     {
-        //
+        $staff = QueryBuilder::for(Staff::class)
+            ->allowedIncludes(['location'])
+            ->jsonPaginate();
+
+        return new StaffCollection($staff);
     }
 
     /**
