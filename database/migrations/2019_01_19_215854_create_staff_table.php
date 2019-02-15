@@ -16,11 +16,11 @@ class CreateStaffTable extends Migration
         Schema::create('staff', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->string('initial');
-            $table->unsignedInteger('location');
+            $table->string('initials');
+            $table->unsignedInteger('location_id');
             $table->timestamps();
 
-            $table->foreign('location')->references('id')->on('locations');
+            $table->foreign('location_id')->references('id')->on('locations');
         });
     }
 
