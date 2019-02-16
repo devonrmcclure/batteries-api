@@ -4,82 +4,51 @@ namespace App\Http\Controllers\Api;
 
 use App\Customer;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
+use App\Http\Resources\CustomerCollection;
+use App\Http\Resources\Customer as CustomerResource;
 
-class CustomerController extends Controller
+class CustomerController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index()
+	{
+		$customer = QueryBuilder::for(Customer::class)
+			->allowedIncludes(['location', 'sales', 'partOrders', 'repairOrders'])
+			->jsonPaginate();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+		return new CustomerCollection($customer);
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  \App\Customer  $customer
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show(int $id)
+	{
+		CustomerResource::withoutWrapping();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Customer $customer)
-    {
-        //
-    }
+		$customer = QueryBuilder::for(Customer::class)
+			->allowedIncludes(['location', 'sales', 'partOrders', 'repairOrders'])
+			// ->allowedFields(['name', 'phone', 'address', 'city', 'province', 'country', 'email', 'location_id', 'created_at', 'updated_at'])
+			->findOrFail($id);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Customer $customer)
-    {
-        //
-    }
+		return new CustomerResource($customer);
+	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Customer $customer)
-    {
-        //
-    }
+	public function store()
+	{
+		throw new \Error('Not yet implemented');
+	}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Customer $customer)
-    {
-        //
-    }
+	public function update()
+	{
+		throw new \Error('Not yet implemented');
+	}
 }

@@ -17,7 +17,8 @@ use Illuminate\Http\JsonResponse;
 class CategoryController extends ApiController
 {
 	// Returns a collection of users.
-    public function index() {
+	public function index()
+	{
 
 		$categories = QueryBuilder::for(Category::class)
 			->allowedIncludes(['children', 'parents', 'grandchildren', 'grandparents'])
@@ -27,7 +28,8 @@ class CategoryController extends ApiController
 	}
 
 	// Show info for a specific category, optionally with (grand)parents and (grand)children
-	public function show(int $id) {
+	public function show(int $id)
+	{
 
 		$category = QueryBuilder::for(Category::class)
 			->allowedIncludes(['children', 'parents', 'grandchildren', 'grandparents'])
@@ -36,29 +38,31 @@ class CategoryController extends ApiController
 		return new CategoryResource($category);
 	}
 
-	public function store(Request $request) {
-		$validator = Validator::make($request->all(), [
-			'name' => 'required|max:30',
-			'image' => 'required',
-		]);
+	// TODO: this needs to be an admin function.
+	// public function store(Request $request)
+	// {
+	// 	$validator = Validator::make($request->all(), [
+	// 		'name' => 'required|max:30',
+	// 		'image' => 'required',
+	// 	]);
 
-		if ($validator->fails()) {
-			$messages = [];
-			$errors = $validator->errors();
+	// 	if ($validator->fails()) {
+	// 		$messages = [];
+	// 		$errors = $validator->errors();
 
-			foreach ($errors->all() as $message) {
-				array_push($messages, $message);
-			}
-			$json = [
-				'message' => $messages,
-				'status' => JsonResponse::HTTP_UNPROCESSABLE_ENTITY
-			];
-			
-			return response()->json($json, JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
-		}
+	// 		foreach ($errors->all() as $message) {
+	// 			array_push($messages, $message);
+	// 		}
+	// 		$json = [
+	// 			'message' => $messages,
+	// 			'status' => JsonResponse::HTTP_UNPROCESSABLE_ENTITY
+	// 		];
 
-		$category = Category::create($validator->validated());
+	// 		return response()->json($json, JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
+	// 	}
 
-		return response()->json(new CategoryResource($category), 201);
-	}
+	// 	$category = Category::create($validator->validated());
+
+	// 	return response()->json(new CategoryResource($category), 201);
+	// }
 }

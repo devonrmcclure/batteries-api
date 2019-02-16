@@ -10,40 +10,46 @@ use App\Http\Resources\Staff as StaffResource;
 
 class StaffController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $staff = QueryBuilder::for(Staff::class)
-            ->allowedIncludes(['location'])
-            ->jsonPaginate();
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index()
+	{
+		$staff = QueryBuilder::for(Staff::class)
+			->allowedIncludes(['location'])
+			->jsonPaginate();
 
-        return new StaffCollection($staff);
-    }
+		return new StaffCollection($staff);
+	}
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Staff  $staff
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Staff $staff)
-    {
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  \App\Staff  $staff
+	 * @return \Illuminate\Http\Response
+	 */
+	public function show(int $id)
+	{
+		StaffResource::withoutWrapping();
+
+		$staff = QueryBuilder::for(Staff::class)
+			->allowedIncludes(['location', 'sales', 'partOrders', 'repairOrders'])
+			->findOrFail($id);
+
+		return new StaffResource($staff);
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  \App\Staff  $staff
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update(Request $request, Staff $staff)
+	{
         //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Staff  $staff
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Staff $staff)
-    {
-        //
-    }
+	}
 }
