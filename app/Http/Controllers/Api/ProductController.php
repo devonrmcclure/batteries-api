@@ -11,7 +11,8 @@ use App\Http\Resources\Product as ProductResource;
 class ProductController extends ApiController
 {
 	// Show all products, paginated, optionally with category.
-    public function index() {
+	public function index()
+	{
 		$products = QueryBuilder::for(Product::class)
 			->allowedIncludes(['category'])
 			->jsonPaginate();
@@ -20,15 +21,16 @@ class ProductController extends ApiController
 	}
 
 	// Show info for a specific product, optionally with categories
-	public function show(int $id) {
+	public function show(int $id)
+	{
 		ProductResource::withoutWrapping();
 
 		$product = QueryBuilder::for(Product::class)
 			->allowedIncludes(['category'])
 			->allowedFields([
-				'id', 'sku', 'description', 'price', 
-				'sale_price', 'pst', 'gst', 'image', 
-				'brand', 'model', 'order_number', 
+				'id', 'sku', 'description', 'price',
+				'sale_price', 'pst', 'gst', 'image',
+				'brand', 'model', 'order_number',
 				'created_at', 'updated_at'
 			])
 			->findOrFail($id);
