@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PartOrder extends Model
+class RepairOrder extends Model
 {
     public function customer()
     {
@@ -16,10 +16,10 @@ class PartOrder extends Model
         return $this->belongsTo('App\Staff');
     }
 
-    // A PO can have multiple sales (deposit, remainder, refund, etc);
+    // A RO can have multiple sales (deposit, remainder, refund, etc);
     public function sales()
     {
-    	return $this->hasMany('App\PartOrderSale');
+    	return $this->hasMany('App\RepairOrderSale');
     }
 
     public function location()

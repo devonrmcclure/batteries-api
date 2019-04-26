@@ -15,7 +15,7 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('sku');
+            $table->string('sku');
             $table->string('description');
             $table->integer('unit_price');
             $table->integer('unit_sale_price');
@@ -32,7 +32,6 @@ class CreateProductsTable extends Migration
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories')
-                ->onUpdate('cascade')
                 ->onDelete('set null');
         });
     }

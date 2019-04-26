@@ -1,0 +1,49 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateSalesTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('sales', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('invoice_number')->unique();
+            $table->integer('subtotal');
+            $table->integer('pst');
+            $table->integer('gst');
+            $table->integer('total');
+            $table->integer('items_sold');
+            $table->string('invoice_comment');
+            $table->boolean('printed');
+            $table->unsignedInteger('staff_id');
+            $table->unsignedInteger('customer_id');
+            $table->unsignedInteger('location_id');
+            $table->unsignedInteger('payment_method');
+            $table->timestamp('duplicate_printed');
+            $table->timestamps();
+
+            $table->foreign('staff_id')->references('id')->on('staff')->onUpdate('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onUpdate('cascade');
+            $table->foreign('location_id')->references('id')->on('locations');
+            $table->foreign('payment_method')->references('id')->on('payment_methods');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('sales');
+    }
+}

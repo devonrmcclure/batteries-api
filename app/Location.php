@@ -51,4 +51,39 @@ class Location extends Authenticatable
 	{
 		return $this->hasMany('App\Customer');
 	}
+
+	public function sales()
+	{
+		return $this->hasMany('App\Sale');
+	}
+
+	public function repair_orders()
+	{
+		return $this->hasMany('App\RepairOrder');
+	}
+
+	public function part_orders()
+	{
+		return $this->hasMany('App\PartOrder');
+	}
+
+	public function daily_sales()
+	{
+		return $this->hasMany('App\DailySale');
+	}
+
+	public function monthly_sales()
+	{
+		return $this->hasMany('App\MonthlySale');
+	}
+
+	public function yearly_sales()
+	{
+		return $this->hasMany('App\YearlySale');
+	}
+
+	public function quantity_on_hand()
+	{
+		return $this->hasMany('App\OnHandQuantity');
+	}
 }

@@ -11,6 +11,7 @@ class AuthController extends ApiController
         $http = new \GuzzleHttp\Client;
         $credentials = json_decode($request->getContent());
         try {
+        
             $response = $http->post(config('services.passport.login_endpoint'), [
                 'form_params' => [
                     'grant_type' => 'password',
