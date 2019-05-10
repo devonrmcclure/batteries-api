@@ -16,7 +16,7 @@ class CreateRepairOrdersTable extends Migration
         Schema::create('repair_orders', function (Blueprint $table) {   
             $table->increments('id');
             $table->unsignedInteger('order_number');
-            $table->boolean('warranty');
+            $table->boolean('is_warranty');
             $table->string('warranty_type')->nullable();
             $table->integer('call_if_over')->nullable();
             $table->string('referred_by');

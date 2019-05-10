@@ -27,6 +27,8 @@ class CreateSalesTable extends Migration
             $table->unsignedInteger('customer_id');
             $table->unsignedInteger('location_id');
             $table->unsignedInteger('payment_method');
+            $table->unsignedInteger('part_order_id')->nullable();
+            $table->unsignedInteger('repair_order_id')->nullable();
             $table->timestamp('duplicate_printed');
             $table->timestamps();
 
@@ -34,6 +36,8 @@ class CreateSalesTable extends Migration
             $table->foreign('customer_id')->references('id')->on('customers')->onUpdate('cascade');
             $table->foreign('location_id')->references('id')->on('locations');
             $table->foreign('payment_method')->references('id')->on('payment_methods');
+            $table->foreign('part_order_id')->references('id')->on('part_orders');
+            $table->foreign('repair_order_id')->references('id')->on('repair_orders');
         });
     }
 

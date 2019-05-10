@@ -13,8 +13,10 @@ Route::group(['middleware' => ['auth:api']], function () {
 		'index', 'show'
 	]);
 
-	Route::apiResource('products', 'Api\ProductController')->only([
+	Route::apiResource('products', 'Api\ProductController', )->only([
 		'index', 'show'
+	])->parameters([
+		'products' => 'sku'  //@show will use products/{sku}
 	]);
 
 	Route::apiResource('staff', 'Api\StaffController')->only([
@@ -22,6 +24,18 @@ Route::group(['middleware' => ['auth:api']], function () {
 	]);
 
 	Route::apiResource('customers', 'Api\CustomerController')->only([
+		'index', 'show', 'store', 'update'
+	]);
+
+	Route::apiResource('payment-methods', 'Api\PaymentMethodController')->only([
+		'index', 'show'
+	]);
+
+	Route::apiResource('part-orders', 'Api\PartOrderController')->only([
+		'index', 'show', 'store', 'update'
+	]);
+
+	Route::apiResource('repair-orders', 'Api\RepairOrderController')->only([
 		'index', 'show', 'store', 'update'
 	]);
 });

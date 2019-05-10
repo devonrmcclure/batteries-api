@@ -15,7 +15,7 @@ class Product extends JsonResource
      */
 	public function toArray($request) {
 		return [
-			'type' => 'products',
+			'type' => 'product',
 			'id' => $this->when($this->id, $this->id),
 			'attributes' => [
 				'sku' => $this->when($this->sku, $this->sku),

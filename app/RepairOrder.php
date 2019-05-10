@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class RepairOrder extends Model
 {
+    protected $guarded = [];
+    
     public function customer()
     {
         return $this->belongsTo('App\Customer');

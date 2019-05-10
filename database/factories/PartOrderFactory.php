@@ -8,7 +8,11 @@ $factory->define(App\PartOrder::class, function (Faker $faker) {
 		'referred_by' => $faker->name,
         'brand' => $faker->name,
         'model' => $faker->name,
+        'item' => $faker->name,
+        'part_number' => $faker->name,
+        'part_description' => $faker->sentence(),
         'staff_id' => 1,
-        'customer_id' => 1
+        'customer_id' => 1,
+        'location_id' => 1
     ];
 });

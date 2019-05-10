@@ -21,6 +21,16 @@ class Sale extends Model
         return $this->belongsTo('App\Location');
     }
 
+    public function partOrder()
+    {
+        return $this->belongsTo('App\PartOrder');
+    }
+
+    public function repairOrder()
+    {
+        return $this->belongsTo('App\RepairOrder');
+    }
+
     public function payment_method()
     {
         return $this->hasOne('App\PaymentMethod');

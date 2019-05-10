@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PartOrder extends Model
 {
+    protected $gaurded = [];
+
     public function customer()
     {
         return $this->belongsTo('App\Customer');
@@ -19,7 +21,7 @@ class PartOrder extends Model
     // A PO can have multiple sales (deposit, remainder, refund, etc);
     public function sales()
     {
-    	return $this->hasMany('App\PartOrderSale');
+    	return $this->hasMany('App\Sale');
     }
 
     public function location()

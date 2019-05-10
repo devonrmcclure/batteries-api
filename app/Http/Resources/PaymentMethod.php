@@ -3,8 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+//use App\Http\Resources\Sale;
 
-class Location extends JsonResource
+class PaymentMethod extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,18 +15,18 @@ class Location extends JsonResource
      */
     public function toArray($request)
     {
-		return [
-			'type' => 'location',
-			'id' => $this->id,
+        return [
+			'type' => 'payment-method',
+			'id' => $this->when($this->id, $this->id),
 			'attributes' => [
 				'name' => $this->when($this->name, $this->name),
-				'email' => $this->when($this->email, $this->email),
+				'notes' => $this->when($this->notes, $this->notes),
 				'created' => $this->when($this->created_at, (string)$this->created_at),
 				'updated' => $this->when($this->updated_at, (string)$this->updated_at)
 			],
-			//'staff' => $this->collection($this->whenLoaded('staff')),
+			//'sales' => new Sale($this->whenLoaded('sale')),
 			'links' => [
-				'self' => route('locations.show', ['locations' => $this->id]),
+				'self' => route('payment-methods.show', ['payment_method' => $this->id]),
 			],
 		];
     }

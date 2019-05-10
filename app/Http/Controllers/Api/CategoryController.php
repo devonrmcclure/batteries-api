@@ -19,7 +19,6 @@ class CategoryController extends ApiController
 	// Returns a collection of users.
 	public function index()
 	{
-
 		$categories = QueryBuilder::for(Category::class)
 			->allowedIncludes(['children', 'parents', 'grandchildren', 'grandparents'])
 			->get();
@@ -30,7 +29,6 @@ class CategoryController extends ApiController
 	// Show info for a specific category, optionally with (grand)parents and (grand)children
 	public function show(int $id)
 	{
-
 		$category = QueryBuilder::for(Category::class)
 			->allowedIncludes(['children', 'parents', 'grandchildren', 'grandparents'])
 			->findOrFail($id);

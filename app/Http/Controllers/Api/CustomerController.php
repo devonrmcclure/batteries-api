@@ -51,4 +51,9 @@ class CustomerController extends ApiController
 	{
 		throw new \Error('Not yet implemented');
 	}
+
+	public function delete()
+	{
+		throw new \Error('Delete not yet implemented');
+	}
 }
