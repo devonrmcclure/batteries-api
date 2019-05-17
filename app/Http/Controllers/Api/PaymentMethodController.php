@@ -19,7 +19,6 @@ class PaymentMethodController extends ApiController
     public function index()
     {
         $paymentMethods = QueryBuilder::for(PaymentMethod::class)
-            ->allowedIncludes(['sale'])
             ->get();
 
 		return new PaymentMethodCollection($paymentMethods);

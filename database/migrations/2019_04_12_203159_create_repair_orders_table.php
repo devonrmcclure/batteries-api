@@ -35,6 +35,7 @@ class CreateRepairOrdersTable extends Migration
             $table->timestamp('to_ho')->nullable();
             $table->timestamp('from_ho')->nullable();
             $table->timestamp('picked_up')->nullable();
+            $table->timestamp('voided_at')->nullable();
             $table->timestamps();
 
             $table->foreign('staff_id')->references('id')->on('staff');

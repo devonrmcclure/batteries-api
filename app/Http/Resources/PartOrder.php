@@ -19,7 +19,7 @@ class PartOrder extends JsonResource
     public function toArray($request)
     {
         return [
-			'type' => 'part-order',
+			'type' => 'part_orders',
 			'id' => $this->when($this->id, $this->id),
 			'attributes' => [
 				'order_number' => $this->when($this->order_number, $this->order_number),
@@ -36,10 +36,12 @@ class PartOrder extends JsonResource
                 'created' => (string)$this->created_at,
 				'updated' => $this->when($this->updated_at, (string)$this->updated_at)
 			],
-            'staff' => new Staff($this->whenLoaded('staff')),
-            'customer' => new Customer($this->whenLoaded('customer')),
-            'location' => new Location($this->whenLoaded('location')),
-			'sales' => new SaleCollection($this->whenLoaded('sales')),
+			'relations' => [
+				'staff' => new Staff($this->whenLoaded('staff')),
+				'customer' => new Customer($this->whenLoaded('customer')),
+				'location' => new Location($this->whenLoaded('location')),
+				'sales' => new SaleCollection($this->whenLoaded('sales'))
+			],
 			'links' => [
 				'self' => route('part-orders.show', ['part_order' => $this->id]),
 			],

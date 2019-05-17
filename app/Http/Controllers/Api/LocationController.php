@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Location;
-use App\Http\Resources\Location as LocationResource;
-use App\Http\Resources\LocationCollection;
 use Spatie\QueryBuilder\QueryBuilder;
+use App\Http\Resources\LocationCollection;
+use App\Http\Resources\Location as LocationResource;
 
 class LocationController extends ApiController
 {
-	public function index(Request $request) {
+	public function index() {
 		$locations = QueryBuilder::for(Location::class)
-			->allowedIncludes(['sales', 'staff'])
+			->allowedIncludes(['sales', 'staff', 'part-orders', 'repair-orders', 
+								'customers', 'daily-sales', 'monthly-sales', 'yearly-sales', 'on-hand-quantity'])
+			->where('id', '=', auth()->user()->id)
 			->get();
 
 		return new LocationCollection($locations);
@@ -20,7 +21,9 @@ class LocationController extends ApiController
 
 	public function show(int $id) {
 		$location = QueryBuilder::for(Location::class)
-			->allowedIncludes(['sales', 'staff'])
+			->allowedIncludes(['sales', 'staff', 'part-orders', 'repair-orders', 
+								'customers', 'daily-sales', 'monthly-sales', 'yearly-sales', 'on-hand-quantity'])
+			->where('id', '=', auth()->user()->id)
 			->findOrFail($id);
 
 		return new LocationResource($location);

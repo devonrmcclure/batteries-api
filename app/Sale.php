@@ -31,7 +31,7 @@ class Sale extends Model
         return $this->belongsTo('App\RepairOrder');
     }
 
-    public function payment_method()
+    public function paymentMethod()
     {
         return $this->hasOne('App\PaymentMethod');
     }

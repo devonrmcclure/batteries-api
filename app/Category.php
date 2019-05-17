@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
@@ -11,7 +10,7 @@ class Category extends Model
 		'name', 'image', 'parent_id',
 	];
 
-    public function products() {
+	public function products() {
 		return $this->hasMany('App\Product');
 	}
 

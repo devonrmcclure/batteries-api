@@ -19,7 +19,7 @@ class RepairOrder extends JsonResource
     public function toArray($request)
     {
         return [
-			'type' => 'part-order',
+			'type' => 'repair_orders',
 			'id' => $this->when($this->id, $this->id),
 			'attributes' => [
                 'order_number' => $this->when($this->order_number, $this->order_number),
@@ -41,13 +41,15 @@ class RepairOrder extends JsonResource
                 'picked_up' => (string)$this->picked_up,
                 'created' => (string)$this->created_at,
 				'updated' => $this->when($this->updated_at, (string)$this->updated_at)
-			],
-            'staff' => new Staff($this->whenLoaded('staff')),
-            'customer' => new Customer($this->whenLoaded('customer')),
-            'location' => new Location($this->whenLoaded('location')),
-            'sales' => new SaleCollection($this->whenLoaded('sales')),
+            ],
+            'relations' => [
+                'staff' => new Staff($this->whenLoaded('staff')),
+                'customer' => new Customer($this->whenLoaded('customer')),
+                'location' => new Location($this->whenLoaded('location')),
+                'sales' => new SaleCollection($this->whenLoaded('sales'))
+            ],
 			'links' => [
-				'self' => route('part-orders.show', ['part_order' => $this->id]),
+				'self' => route('repair-orders.show', ['repair_order' => $this->id]),
 			],
 		];
     }

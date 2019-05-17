@@ -16,7 +16,7 @@ class PaymentMethod extends JsonResource
     public function toArray($request)
     {
         return [
-			'type' => 'payment-method',
+			'type' => 'payment_methods',
 			'id' => $this->when($this->id, $this->id),
 			'attributes' => [
 				'name' => $this->when($this->name, $this->name),
@@ -24,7 +24,6 @@ class PaymentMethod extends JsonResource
 				'created' => $this->when($this->created_at, (string)$this->created_at),
 				'updated' => $this->when($this->updated_at, (string)$this->updated_at)
 			],
-			//'sales' => new Sale($this->whenLoaded('sale')),
 			'links' => [
 				'self' => route('payment-methods.show', ['payment_method' => $this->id]),
 			],

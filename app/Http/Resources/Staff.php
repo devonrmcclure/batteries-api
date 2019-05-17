@@ -21,9 +21,12 @@ class Staff extends JsonResource
 			'attributes' => [
 				'name' => $this->name,
 				'initials' => $this->initials,
-				'location' => new Location($this->whenLoaded('location')),
 				'created' => $this->when($this->created_at, (string)$this->created_at),
 				'updated' => $this->when($this->updated_at, (string)$this->updated_at)
+			],
+			'relations' => [
+				'location' => new Location($this->whenLoaded('location')),
+				
 			],
 			'links' => [
 				'self' => route('staff.show', ['staff' => $this->id]),

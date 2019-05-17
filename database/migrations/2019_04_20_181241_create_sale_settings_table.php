@@ -13,7 +13,7 @@ class CreateSaleSettingsTable extends Migration
      */
     public function up()
     {
-        // Bot PST and GST rate are stored as a value from 0-100.
+        // Both PST and GST rate are stored as a value from 0-100.
         Schema::create('sale_settings', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('pst_rate'); 

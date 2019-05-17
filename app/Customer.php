@@ -6,17 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
+	protected $guarded = [];
+
 	public function location()
 	{
 		return $this->belongsTo('App\Location');
 	}
 
-	public function part_orders()
+	public function partOrders()
 	{
 		return $this->hasMany('App\PartOrder');
 	}
 
-	public function repair_orders()
+	public function repairOrders()
 	{
 		return $this->hasMany('App\RepairOrder');
 	}

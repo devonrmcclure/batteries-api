@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Validator;
+use Carbon\Carbon;
 use App\RepairOrder;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -12,28 +13,20 @@ use App\Http\Resources\RepairOrder as RepairOrderResource;
 
 class RepairOrderController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $repairOrders = QueryBuilder::for(RepairOrder::class)
-			->allowedIncludes(['location', 'sales', 'staff', 'customer'])
+            ->allowedIncludes(['location', 'sales', 'staff', 'customer'])
+            ->where('location_id', '=', auth()->user()->id)
 			->jsonPaginate();
 
 		return new RepairOrderCollection($repairOrders);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
+        $request->request->add(['location_id' => auth()->user()->id]);
+
         $validator = Validator::make($request->all(), [
             'order_number' => 'required|integer',
             'is_warranty' => 'required|boolean',
@@ -49,7 +42,7 @@ class RepairOrderController extends ApiController
             'customer_problem' => 'required|min:5',
             'staff_id' => 'required|integer|exists:staff,id',
             'customer_id' => 'required|integer|exists:customers,id',
-            'location_id' => 'required|integer|exists:locations,id',
+            'location_id' => 'required',
             'to_ho' => 'date',
             'from_ho' => 'date',
             'picked_up' => 'date'
@@ -70,37 +63,30 @@ class RepairOrderController extends ApiController
 			return response()->json($json, JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
 		}
 
-		$repairOrder = RepairOrder::create($validator->validated());
+		$repairOrder = RepairOrder::create($validator->validated(), ['location_id', auth()->user()->id]);
 
 		return response()->json(new RepairOrderResource($repairOrder), 201);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         RepairOrderResource::withoutWrapping();
 
         $repairOrder = QueryBuilder::for(RepairOrder::class)
-			->allowedIncludes(['location', 'sales', 'staff', 'customer'])
+            ->allowedIncludes(['location', 'sales', 'staff', 'customer'])
+            ->where('location_id', '=', auth()->user()->id)
 			->findOrFail($id);
 
 		return new RepairOrderResource($repairOrder);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, RepairOrder $repairOrder)
     {
+        if ($repairOrder->location_id !== auth()->user()->id)
+		{
+			return response()->json(['message' => 'You are not authorized to edit this item.'], 401);
+		}
+
         $validator = Validator::make($request->all(), [
             'order_number' => 'integer',
             'is_warranty' => 'boolean',
@@ -114,9 +100,6 @@ class RepairOrderController extends ApiController
             'condition' => 'string',
             'accessories' => 'string',
             'customer_problem' => 'min:5',
-            'staff_id' => 'integer|exists:staff,id',
-            'customer_id' => 'integer|exists:customers,id',
-            'location_id' => 'integer|exists:locations,id',
             'to_ho' => 'date',
             'from_ho' => 'date',
             'picked_up' => 'date'
@@ -139,19 +122,20 @@ class RepairOrderController extends ApiController
 
 		$repairOrder->update($validator->validated());
 
-		return response()->json(['message' => 'Repair Order updated.'], 200);
+		return response()->json(new RepairOrderResource($repairOrder), 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    	// TODO: Implement so an employee can VOID a repair order (doesn't delete from DB)
-
-    public function destroy($id)
+    // VOID a repair order (doesn't delete from DB)
+    public function destroy(RepairOrder $repairOrder)
     {
-        throw new \Error('Not yet implemented');
+        if ($repairOrder->location_id !== auth()->user()->id)
+		{
+			return response()->json(['message' => 'You are not authorized to edit this item.'], 401);
+		}
+
+        $repairOrder->voided_at = Carbon::Now();
+        $repairOrder->save();
+
+        return response()->json(['message' => 'Repair Order voided.'], 200);
     }
 }

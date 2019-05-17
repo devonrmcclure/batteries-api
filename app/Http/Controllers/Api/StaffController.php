@@ -18,7 +18,8 @@ class StaffController extends ApiController
 	public function index()
 	{
 		$staff = QueryBuilder::for(Staff::class)
-			->allowedIncludes(['location'])
+			->allowedIncludes(['location', 'sales', 'partOrders', 'repairOrders'])
+			->where('location_id', '=', auth()->user()->id)
 			->jsonPaginate();
 
 		return new StaffCollection($staff);
@@ -36,6 +37,7 @@ class StaffController extends ApiController
 
 		$staff = QueryBuilder::for(Staff::class)
 			->allowedIncludes(['location', 'sales', 'partOrders', 'repairOrders'])
+			->where('location_id', '=', auth()->user()->id)
 			->findOrFail($id);
 
 		return new StaffResource($staff);

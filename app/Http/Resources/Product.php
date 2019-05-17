@@ -15,7 +15,7 @@ class Product extends JsonResource
      */
 	public function toArray($request) {
 		return [
-			'type' => 'product',
+			'type' => 'products',
 			'id' => $this->when($this->id, $this->id),
 			'attributes' => [
 				'sku' => $this->when($this->sku, $this->sku),
@@ -31,7 +31,9 @@ class Product extends JsonResource
 				'created' => $this->when($this->created_at, (string)$this->created_at),
 				'updated' => $this->when($this->updated_at, (string)$this->updated_at)
 			],
-			'category' => new Category($this->whenLoaded('category')),
+			'relations' => [
+				'category' => new Category($this->whenLoaded('category')),
+			],
 			'links' => [
 				'self' => route('products.show', ['product' => $this->id]),
 			],

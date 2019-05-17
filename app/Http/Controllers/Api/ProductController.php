@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Product;
-use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 use App\Http\Resources\ProductCollection;
 use App\Http\Resources\Product as ProductResource;
