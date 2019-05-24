@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Sale extends Model
 {
+    protected $guarded = ['products'];
+
     public function staff()
     {
         return $this->belongsTo('App\Staff');
@@ -38,6 +40,18 @@ class Sale extends Model
 
     public function products()
     {
-        return $this->hasMany('App\Product');
+        return $this->belongsToMany('App\Product')->using('App\ProductSale')
+                ->withPivot([
+                    'sku',
+                    'price',
+                    'description',
+                    'quantity',
+                    'description',
+                    'pst',
+                    'gst',
+                    'total',
+                    'comment',
+                    'sale_type'
+                ]);
     }
 }

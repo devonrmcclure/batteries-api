@@ -12,6 +12,6 @@ class Product extends Model
 
 	public function sales()
 	{
-		return $this->belongsToMany('App\Sale');
+		return $this->belongsToMany('App\Sale')->using('App\ProductSale');
 	}
 }

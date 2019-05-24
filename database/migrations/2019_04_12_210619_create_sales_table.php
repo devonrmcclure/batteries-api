@@ -29,7 +29,7 @@ class CreateSalesTable extends Migration
             $table->unsignedInteger('payment_method');
             $table->unsignedInteger('part_order_id')->nullable();
             $table->unsignedInteger('repair_order_id')->nullable();
-            $table->timestamp('duplicate_printed');
+            $table->timestamp('duplicate_printed')->nullable();
             $table->timestamps();
 
             $table->foreign('staff_id')->references('id')->on('staff')->onUpdate('cascade');

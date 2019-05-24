@@ -9,6 +9,7 @@ use App\Http\Resources\Location;
 use App\Http\Resources\PaymentMethod;
 use App\Http\Resources\PartOrder;
 use App\Http\Resources\RepairOrder;
+use App\Http\Resources\ProductSaleCollection;
 
 class Sale extends JsonResource
 {
@@ -42,7 +43,10 @@ class Sale extends JsonResource
                 'location' => new Location($this->whenLoaded('location')),
                 'payment_method' => new PaymentMethod($this->whenLoaded('paymentMethod')),
                 'part_order' => new PartOrder($this->whenLoaded('partOrder')),
-                'repair_order' => new RepairOrder($this->whenLoaded('repairOrder'))
+                'repair_order' => new RepairOrder($this->whenLoaded('repairOrder')),
+                'products' => $this->whenLoaded('products', function () {
+                    return new ProductSaleCollection($this->products);
+                })
             ],
 			'links' => [
 				'self' => route('sales.show', ['sale' => $this->id]),
