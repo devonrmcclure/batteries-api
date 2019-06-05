@@ -9,17 +9,20 @@ use App\Http\Resources\Location as LocationResource;
 
 class LocationController extends ApiController
 {
+	// same as /id one heh
 	public function index() {
-		$locations = QueryBuilder::for(Location::class)
+		LocationResource::withoutWrapping();
+		$location = QueryBuilder::for(Location::class)
 			->allowedIncludes(['sales', 'staff', 'part-orders', 'repair-orders', 
 								'customers', 'daily-sales', 'monthly-sales', 'yearly-sales', 'on-hand-quantity'])
 			->where('id', '=', auth()->user()->id)
-			->get();
+			->first();
 
-		return new LocationCollection($locations);
+		return new LocationResource($location);
 	}
 
 	public function show(int $id) {
+		LocationResource::withoutWrapping();
 		$location = QueryBuilder::for(Location::class)
 			->allowedIncludes(['sales', 'staff', 'part-orders', 'repair-orders', 
 								'customers', 'daily-sales', 'monthly-sales', 'yearly-sales', 'on-hand-quantity'])

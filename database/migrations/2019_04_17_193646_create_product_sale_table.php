@@ -28,6 +28,7 @@ class CreateProductSaleTable extends Migration
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('sale_id');
             $table->unsignedInteger('location_id');
+            $table->timestamps();
 
             $table->foreign('product_id')->references('id')->on('products');
             $table->foreign('sale_id')->references('id')->on('sales');

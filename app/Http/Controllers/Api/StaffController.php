@@ -19,6 +19,7 @@ class StaffController extends ApiController
 	{
 		$staff = QueryBuilder::for(Staff::class)
 			->allowedIncludes(['location', 'sales', 'partOrders', 'repairOrders'])
+			->allowedFilters(['initials'])
 			->where('location_id', '=', auth()->user()->id)
 			->jsonPaginate();
 
@@ -33,10 +34,9 @@ class StaffController extends ApiController
 	 */
 	public function show(int $id)
 	{
-		StaffResource::withoutWrapping();
-
 		$staff = QueryBuilder::for(Staff::class)
 			->allowedIncludes(['location', 'sales', 'partOrders', 'repairOrders'])
+			->allowedFilters(['initials'])
 			->where('location_id', '=', auth()->user()->id)
 			->findOrFail($id);
 

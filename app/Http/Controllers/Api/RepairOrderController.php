@@ -138,4 +138,17 @@ class RepairOrderController extends ApiController
 
         return response()->json(['message' => 'Repair Order voided.'], 200);
     }
+
+    public function outstanding()
+    {
+        $repairOrders = QueryBuilder::for(RepairOrder::class)
+            ->allowedIncludes(['location', 'sales', 'staff', 'customer'])
+            ->latest()
+            ->where('location_id', '=', auth()->user()->id)
+            ->where('from_ho', null)
+            ->limit(5)
+			->get();
+
+		return new RepairOrderCollection($repairOrders);
+    }
 }

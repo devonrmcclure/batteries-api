@@ -18,8 +18,9 @@ class SaleController extends ApiController
     public function index()
     {
         $sales = QueryBuilder::for(Sale::class)
-            ->allowedIncludes(['staff', 'category', 'customer', 'location', 'part_order', 'repair_order', 'payment_method', 'products'])
+            ->allowedIncludes(['staff', 'category', 'customer', 'location', 'part_order', 'repair_order', 'payment_method', 'products'])      
             ->where('location_id', '=', auth()->user()->id)
+            ->latest()
 			->jsonPaginate();
 
 		return new SaleCollection($sales);
@@ -95,5 +96,17 @@ class SaleController extends ApiController
     public function update(Request $request, $id)
     {
         throw new \Error('Not yet implemented', 501);
+    }
+
+    public function latest()
+    {
+        $sales = QueryBuilder::for(Sale::class)
+            ->allowedIncludes(['staff', 'category', 'customer', 'location', 'part_order', 'repair_order', 'payment_method', 'products'])      
+            ->where('location_id', '=', auth()->user()->id)
+            ->latest()
+            ->limit(5)
+			->get();
+
+		return new SaleCollection($sales);
     }
 }

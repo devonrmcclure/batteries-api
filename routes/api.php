@@ -35,11 +35,14 @@ Route::group(['middleware' => ['auth:api']], function () {
 		'index', 'show', 'store', 'update', 'destroy'
 	]);
 
+	Route::get('repair-orders/outstanding', 'Api\RepairOrderController@outstanding')->name('repair-orders.outstanding');
 	Route::apiResource('repair-orders', 'Api\RepairOrderController')->only([
 		'index', 'show', 'store', 'update', 'destroy'
 	]);
 
+	Route::get('sales/latest', 'Api\SaleController@latest')->name('sales.latest');
 	Route::apiResource('sales', 'Api\SaleController')->only([
-		'index', 'show', 'store', 'update'
+		'index', 'show', 'store', 'update',
 	]);
+
 });

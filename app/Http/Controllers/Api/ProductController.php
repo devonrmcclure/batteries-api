@@ -14,6 +14,7 @@ class ProductController extends ApiController
 	{
 		$products = QueryBuilder::for(Product::class)
 			->allowedIncludes(['category'])
+			->allowedFilters(['sku'])
 			->jsonPaginate();
 
 		return new ProductCollection($products);
@@ -32,7 +33,8 @@ class ProductController extends ApiController
 				'brand', 'model', 'order_number',
 				'created_at', 'updated_at'
 			])
-			->findOrFail($id);
+			->where('sku', $id)
+			->firstOrFail();
 
 		return new ProductResource($product);
 	}
