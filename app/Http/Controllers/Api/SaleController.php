@@ -14,11 +14,11 @@ use App\Http\Resources\Sale as SaleResource;
 
 class SaleController extends ApiController
 {
-
     public function index()
     {
         $sales = QueryBuilder::for(Sale::class)
-            ->allowedIncludes(['staff', 'category', 'customer', 'location', 'part_order', 'repair_order', 'payment_method', 'products'])      
+            ->allowedIncludes(['staff', 'category', 'customer', 'location', 'part_order', 
+                                'repair_order', 'payment_method', 'products'])      
             ->where('location_id', '=', auth()->user()->id)
             ->latest()
 			->jsonPaginate();
