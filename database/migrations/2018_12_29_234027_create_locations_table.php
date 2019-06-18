@@ -14,15 +14,17 @@ class CreateLocationsTable extends Migration
     public function up()
     {
         Schema::create('locations', function (Blueprint $table) {
-			$table->increments('id');
-			$table->integer('user_id')->unsigned();
-			$table->string('name');
-			$table->string('email')->unique();
-			$table->string('password');
-			$table->rememberToken();
-			$table->timestamps();
+            $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('phone');
+            $table->string('address');
+            $table->string('password');
+            $table->rememberToken();
+            $table->timestamps();
 
-			$table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

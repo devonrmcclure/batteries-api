@@ -23,6 +23,7 @@ class CreateCustomersTable extends Migration
 			$table->string('country')->nullable();
 			$table->string('postal_code')->nullable();
 			$table->string('email')->nullable();
+			$table->string('type')->nullable();
 			$table->unsignedInteger('location_id');
 			$table->timestamps();
 

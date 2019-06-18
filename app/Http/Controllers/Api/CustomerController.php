@@ -21,21 +21,24 @@ class CustomerController extends ApiController
 	{
 		$customer = QueryBuilder::for(Customer::class)
 			->allowedIncludes(['location', 'sales', 'part-orders', 'repair-orders'])
+			->allowedFilters(['type', 'phone'])
 			->where('location_id', '=', auth()->user()->id)
 			->jsonPaginate();
 
 		return new CustomerCollection($customer);
 	}
 
-	public function show(int $id)
+	public function show($search)
 	{
 		CustomerResource::withoutWrapping();
 
 		$customer = QueryBuilder::for(Customer::class)
 			->allowedIncludes(['location', 'sales', 'part-orders', 'repair-orders'])
-			// ->allowedFields(['name', 'phone', 'address', 'city', 'province', 'country', 'email', 'location_id', 'created_at', 'updated_at'])
+			->allowedFilters(['type'])
+			->where('phone', $search)
+			->orWhere('id', $search)
 			->where('location_id', '=', auth()->user()->id)
-			->findOrFail($id);
+			->firstOrFail();
 
 		return new CustomerResource($customer);
 	}
@@ -43,16 +46,16 @@ class CustomerController extends ApiController
 	public function store(Request $request)
 	{
 		$request->request->add(['location_id' => auth()->user()->id]);
-		
+
 		$validator = Validator::make($request->all(), [
-            'name' => 'required|string',
-            'phone' => 'required|string',
-            'address' => 'string',
-            'city' => 'string',
-            'province' => 'string',
-            'country' => 'string',
+			'name' => 'required|string',
+			'phone' => 'required|string',
+			'address' => 'string',
+			'city' => 'string',
+			'province' => 'string',
+			'country' => 'string',
 			'postal_code' => 'string',
-            'email' => 'string',
+			'email' => 'string',
 			'location_id' => 'required',
 		]);
 
@@ -78,20 +81,19 @@ class CustomerController extends ApiController
 
 	public function update(Request $request, Customer $customer)
 	{
-		if ($customer->location_id !== auth()->user()->id)
-		{
+		if ($customer->location_id !== auth()->user()->id) {
 			return response()->json(['message' => 'You are not authorized to edit this item.'], 401);
 		}
 
-        $validator = Validator::make($request->all(), [
-            'name' => 'string',
-            'phone' => 'string',
-            'address' => 'string',
-            'city' => 'string',
-            'province' => 'string',
-            'country' => 'string',
-            'postal_code' => 'string',
-            'email' => 'string',
+		$validator = Validator::make($request->all(), [
+			'name' => 'string',
+			'phone' => 'string',
+			'address' => 'string',
+			'city' => 'string',
+			'province' => 'string',
+			'country' => 'string',
+			'postal_code' => 'string',
+			'email' => 'string',
 		]);
 
 		if ($validator->fails()) {

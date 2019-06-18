@@ -23,8 +23,7 @@ class CreateProductSaleTable extends Migration
             $table->integer('pst');
             $table->integer('gst');
             $table->integer('total');
-            $table->text('comment');
-            $table->string('sale_type')->default('regular');
+            $table->text('comment')->nullable();
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('sale_id');
             $table->unsignedInteger('location_id');

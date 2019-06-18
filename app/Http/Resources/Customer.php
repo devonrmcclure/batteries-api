@@ -19,15 +19,17 @@ class Customer extends JsonResource
 	{
 		return [
 			'type' => 'customers',
-			'id' => $this->id,
 			'attributes' => [
+				'id' => $this->id,
 				'name' => $this->name,
 				'phone' => $this->phone,
 				'address' => $this->when($this->address, $this->address),
 				'city' => $this->when($this->city, $this->city),
 				'province' => $this->when($this->province, $this->province),
 				'country' => $this->when($this->country, $this->country),
-				'email' => $this->when($this->email, $this->email),				'created' => $this->when($this->created_at, (string)$this->created_at),
+				'email' => $this->when($this->email, $this->email),
+				'type' => $this->type,
+				'created' => $this->when($this->created_at, (string)$this->created_at),
 				'updated' => $this->when($this->updated_at, (string)$this->updated_at)
 			],
 			'relations' => [

@@ -23,6 +23,7 @@ class CreateSalesTable extends Migration
             $table->integer('items_sold');
             $table->string('invoice_comment');
             $table->boolean('printed');
+            $table->string('sale_type')->default('regular');
             $table->unsignedInteger('staff_id');
             $table->unsignedInteger('customer_id');
             $table->unsignedInteger('location_id');
