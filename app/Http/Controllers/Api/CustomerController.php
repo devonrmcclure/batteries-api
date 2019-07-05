@@ -37,7 +37,7 @@ class CustomerController extends ApiController
 			->allowedFilters(['type'])
 			->where('phone', $search)
 			->orWhere('id', $search)
-			->where('location_id', '=', auth()->user()->id)
+			->andWhere('location_id', '=', auth()->user()->id)
 			->firstOrFail();
 
 		return new CustomerResource($customer);
@@ -49,14 +49,13 @@ class CustomerController extends ApiController
 
 		$validator = Validator::make($request->all(), [
 			'name' => 'required|string',
-			'phone' => 'required|string',
-			'address' => 'string',
+			'phone' => 'required|string|min:10|max:10',
+			'address' => 'nullable|string',
 			'city' => 'string',
 			'province' => 'string',
 			'country' => 'string',
 			'postal_code' => 'string',
-			'email' => 'string',
-			'location_id' => 'required',
+			'email' => 'nullable|string'
 		]);
 
 		if ($validator->fails()) {
@@ -74,7 +73,8 @@ class CustomerController extends ApiController
 			return response()->json($json, JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
 		}
 
-		$customer = Customer::create($validator->validated());
+
+		$customer = Customer::create($validator->validated() + ['location_id' => auth()->user()->id]);
 
 		return response()->json(new CustomerResource($customer), 201);
 	}

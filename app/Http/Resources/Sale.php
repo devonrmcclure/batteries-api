@@ -22,35 +22,27 @@ class Sale extends JsonResource
     public function toArray($request)
     {
         return [
-            'type' => 'sales',
-            'attributes' => [
-                'id' => $this->when($this->id, $this->id),
-                'invoice_number' => $this->when($this->invoice_number, $this->invoice_number),
-                'subtotal' => $this->when($this->subtotal, $this->subtotal),
-                'pst' => $this->pst,
-                'gst' =>  $this->gst,
-                'total' => $this->when($this->total, $this->total),
-                'items_sold' => $this->when($this->items_sold, $this->items_sold),
-                'invoice_comment' => $this->when($this->invoice_comment, $this->invoice_comment),
-                'printed' => $this->when($this->printed, $this->printed),
-                'duplicate_printed' => $this->when($this->duplicate_printed, $this->duplicate_printed),
-                'created' => $this->when($this->created_at, (string)$this->created_at),
-                'updated' => $this->when($this->updated_at, (string)$this->updated_at)
-            ],
-            'relations' => [
-                'staff' => new Staff($this->whenLoaded('staff')),
-                'customer' => new Customer($this->whenLoaded('customer')),
-                'location' => new Location($this->whenLoaded('location')),
-                'payment_method' => new PaymentMethod($this->whenLoaded('paymentMethod')),
-                'part_order' => new PartOrder($this->whenLoaded('partOrder')),
-                'repair_order' => new RepairOrder($this->whenLoaded('repairOrder')),
-                'products' => $this->whenLoaded('products', function () {
-                    return new ProductSaleCollection($this->products);
-                })
-            ],
-            'links' => [
-                'self' => route('sales.show', ['sale' => $this->id]),
-            ],
+            'id' => $this->when($this->id, $this->id),
+            'invoice_number' => $this->when($this->invoice_number, $this->invoice_number),
+            'subtotal' => $this->subtotal,
+            'pst' => $this->pst,
+            'gst' =>  $this->gst,
+            'total' => $this->when($this->total, $this->total),
+            'items_sold' => $this->when($this->items_sold, $this->items_sold),
+            'invoice_comment' => $this->when($this->invoice_comment, $this->invoice_comment),
+            'printed' => $this->when($this->printed, $this->printed),
+            'duplicate_printed' => $this->when($this->duplicate_printed, $this->duplicate_printed),
+            'created' => $this->when($this->created_at, (string) $this->created_at),
+            'updated' => $this->when($this->updated_at, (string) $this->updated_at),
+            'staff' => new Staff($this->whenLoaded('staff')),
+            'customer' => new Customer($this->whenLoaded('customer')),
+            'location' => new Location($this->whenLoaded('location')),
+            'payment_method' => new PaymentMethod($this->whenLoaded('paymentMethod')),
+            'part_order' => new PartOrder($this->whenLoaded('partOrder')),
+            'repair_order' => new RepairOrder($this->whenLoaded('repairOrder')),
+            'products' => $this->whenLoaded('products', function () {
+                return new ProductSaleCollection($this->products);
+            })
         ];
     }
 }

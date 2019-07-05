@@ -13,7 +13,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 		'index', 'show'
 	]);
 
-	Route::apiResource('products', 'Api\ProductController', )->only([
+	Route::apiResource('products', 'Api\ProductController',)->only([
 		'index', 'show'
 	])->parameters([
 		'products' => 'sku'  //@show will use products/{sku}
@@ -41,8 +41,8 @@ Route::group(['middleware' => ['auth:api']], function () {
 	]);
 
 	Route::get('sales/latest', 'Api\SaleController@latest')->name('sales.latest');
+	Route::get('sales/settings', 'Api\SaleSettingController@index')->name('sales.settings');
 	Route::apiResource('sales', 'Api\SaleController')->only([
 		'index', 'show', 'store', 'update',
 	]);
-
 });

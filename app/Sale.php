@@ -51,7 +51,6 @@ class Sale extends Model
                     'gst',
                     'total',
                     'comment',
-                    'sale_type'
                 ]);
     }
 }
