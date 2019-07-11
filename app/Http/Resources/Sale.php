@@ -32,6 +32,7 @@ class Sale extends JsonResource
             'invoice_comment' => $this->when($this->invoice_comment, $this->invoice_comment),
             'printed' => $this->when($this->printed, $this->printed),
             'duplicate_printed' => $this->when($this->duplicate_printed, $this->duplicate_printed),
+            'sale_type' => $this->sale_type,
             'created' => $this->when($this->created_at, (string) $this->created_at),
             'updated' => $this->when($this->updated_at, (string) $this->updated_at),
             'staff' => new Staff($this->whenLoaded('staff')),

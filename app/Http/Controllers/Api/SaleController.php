@@ -43,6 +43,7 @@ class SaleController extends ApiController
             'staff_id' => 'required|integer|exists:staff,id',
             'customer_id' => 'required|integer|exists:customers,id',
             'payment_method' => 'required|integer|exists:payment_methods,id',
+            'sale_type' => 'required|string',
             'products' => 'required|array'
         ]);
 
