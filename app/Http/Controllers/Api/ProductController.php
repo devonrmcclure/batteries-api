@@ -15,7 +15,7 @@ class ProductController extends ApiController
 		$products = QueryBuilder::for(Product::class)
 			->allowedIncludes(['category'])
 			->allowedFilters(['sku'])
-			->jsonPaginate();
+			->get();
 
 		return new ProductCollection($products);
 	}

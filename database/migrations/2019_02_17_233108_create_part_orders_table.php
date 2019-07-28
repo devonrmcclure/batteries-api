@@ -15,7 +15,7 @@ class CreatePartOrdersTable extends Migration
     {
         Schema::create('part_orders', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('order_number');
+            $table->unsignedInteger('order_number')->unique();
             $table->string('referred_by');
             $table->string('brand');
             $table->string('model');
@@ -31,6 +31,7 @@ class CreatePartOrdersTable extends Migration
             $table->timestamp('picked_up')->nullable();
             $table->timestamp('voided_at')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('staff_id')->references('id')->on('staff');
             $table->foreign('customer_id')->references('id')->on('customers');

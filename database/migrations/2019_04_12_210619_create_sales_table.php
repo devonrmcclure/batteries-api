@@ -33,8 +33,8 @@ class CreateSalesTable extends Migration
             $table->timestamp('duplicate_printed')->nullable();
             $table->timestamps();
 
-            $table->foreign('staff_id')->references('id')->on('staff')->onUpdate('cascade');
-            $table->foreign('customer_id')->references('id')->on('customers')->onUpdate('cascade');
+            $table->foreign('staff_id')->references('id')->on('staff');
+            $table->foreign('customer_id')->references('id')->on('customers');
             $table->foreign('location_id')->references('id')->on('locations');
             $table->foreign('payment_method')->references('id')->on('payment_methods');
             $table->foreign('part_order_id')->references('id')->on('part_orders');

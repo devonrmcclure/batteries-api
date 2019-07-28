@@ -22,15 +22,18 @@ class SaleController extends ApiController
             ])
             ->where('location_id', '=', auth()->user()->id)
             ->latest()
-            ->jsonPaginate();
+            ->get();
+
+        if (count($sales) == 0) {
+            return response()->json(['message' => 'not found'], JsonResponse::HTTP_NOT_FOUND);
+        }
 
         return new SaleCollection($sales);
     }
 
     public function store(Request $request)
     {
-        $request->request->add(['location_id' => auth()->user()->id]);
-
+        
         $validator = Validator::make($request->all(), [
             'invoice_number' => 'required|integer',
             'subtotal' => 'required|integer',
@@ -42,6 +45,8 @@ class SaleController extends ApiController
             'printed' => 'required|boolean',
             'staff_id' => 'required|integer|exists:staff,id',
             'customer_id' => 'required|integer|exists:customers,id',
+            'part_order_id' => 'integer|nullable',
+            'repair_order_id' => 'integer|nullable',
             'payment_method' => 'required|integer|exists:payment_methods,id',
             'sale_type' => 'required|string',
             'products' => 'required|array'

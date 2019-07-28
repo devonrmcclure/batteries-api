@@ -32,12 +32,13 @@ class CustomerController extends ApiController
 	{
 		CustomerResource::withoutWrapping();
 
+
 		$customer = QueryBuilder::for(Customer::class)
 			->allowedIncludes(['location', 'sales', 'part-orders', 'repair-orders'])
 			->allowedFilters(['type'])
 			->where('phone', $search)
 			->orWhere('id', $search)
-			->andWhere('location_id', '=', auth()->user()->id)
+			->where('location_id', '=', auth()->user()->id)
 			->firstOrFail();
 
 		return new CustomerResource($customer);

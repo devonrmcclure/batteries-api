@@ -95,8 +95,10 @@ class Handler extends ExceptionHandler
 						'message' => 'bad token',
 						'status' => 401
 					])->setStatusCode(401);
+					break;
 
 				default:
+						dd($exception instanceof \Illuminate\Auth\AuthenticationException);
 					$response = response()->json([
 						'message' => 'Something went wrong',
 						'status' => 500
