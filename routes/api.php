@@ -13,7 +13,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 		'index', 'show'
 	]);
 
-	Route::apiResource('products', 'Api\ProductController',)->only([
+	Route::apiResource('products', 'Api\ProductController')->only([
 		'index', 'show'
 	])->parameters([
 		'products' => 'sku'  //@show will use products/{sku}
