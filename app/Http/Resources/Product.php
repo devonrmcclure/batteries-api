@@ -25,6 +25,7 @@ class Product extends JsonResource
 			'is_gst' => $this->gst,
 			'image' => $this->when($this->image, $this->image),
 			'brand' => $this->when($this->brand, $this->brand),
+			'manufacturer' => $this->when($this->manufacturer, $this->manufacturer),
 			'model' => $this->when($this->model_number, $this->model_number),
 			'order_number' => $this->when($this->order_number, $this->order_number),
 			'created' => $this->when($this->created_at, (string) $this->created_at),

@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 	]);
 
 	Route::get('part-orders/latest', 'Api\PartOrderController@latest')->name('part-orders.latest');
+	Route::get('part-orders/outstanding', 'Api\PartOrderController@outstanding')->name('part-orders.outstanding');
 	Route::apiResource('part-orders', 'Api\PartOrderController')->only([
 		'index', 'show', 'store', 'update', 'destroy'
 	]);

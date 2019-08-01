@@ -25,6 +25,17 @@ class PartOrderController extends ApiController
 		return new PartOrderCollection($partOrders);
 	}
 
+	public function outstanding() {
+		$partOrders = QueryBuilder::for(PartOrder::class)
+			->allowedIncludes(['location', 'sales', 'staff', 'customer'])
+			->where('location_id', '=', auth()->user()->id)
+			->where('picked_up', '=', null)
+			->oldest()
+			->get();
+
+		return new PartOrderCollection($partOrders);
+	}
+
 	public function store(Request $request)
 	{
 		$request->request->add(['to_ho' => \Carbon\Carbon::now() ,'location_id' => auth()->user()->id]);
