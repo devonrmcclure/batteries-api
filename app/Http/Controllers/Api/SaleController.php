@@ -95,7 +95,10 @@ class SaleController extends ApiController
             // ->allowedFields(['name', 'phone', 'address', 'city', 'province', 'country', 'email', 'location_id', 'created_at', 'updated_at'])
             ->where('location_id', '=', auth()->user()->id)
             ->with('products')
+            ->latest()
             ->findOrFail($id);
+
+            
 
         return new SaleResource($sale);
     }

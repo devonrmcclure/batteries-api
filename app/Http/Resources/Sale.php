@@ -43,7 +43,7 @@ class Sale extends JsonResource
             'repair_order' => new RepairOrder($this->whenLoaded('repairOrder')),
             'products' => $this->whenLoaded('products', function () {
                 return new ProductSaleCollection($this->products);
-            })
+            }),
         ];
     }
 }

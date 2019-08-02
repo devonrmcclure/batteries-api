@@ -16,6 +16,7 @@ class ProductSale extends JsonResource
     {
 
         return [
+            'invoice' => $this->when($this->invoice_number, $this->invoice_number),
             'product_id' => $this->pivot->product_id,
             'sku' => $this->when($this->pivot->sku, $this->pivot->sku),
             'price' => $this->when($this->pivot->price, $this->pivot->price),
@@ -26,6 +27,8 @@ class ProductSale extends JsonResource
             'gst' => $this->pivot->gst,
             'total' => $this->when($this->pivot->total, $this->pivot->total),
             'comment' => $this->when($this->pivot->comment, $this->pivot->comment),
+            'created' => (string) $this->created_at,
+            'updated' => (string) $this->updated_at
 
         ];
     }

@@ -12,6 +12,17 @@ class Product extends Model
 
 	public function sales()
 	{
-		return $this->belongsToMany('App\Sale')->using('App\ProductSale');
+		return $this->belongsToMany('App\Sale')->using('App\ProductSale')->withPivot([
+			'sku',
+			'price',
+			'description',
+			'quantity',
+			'description',
+			'extended',
+			'pst',
+			'gst',
+			'total',
+			'comment',
+		])->orderByDesc('created_at');
 	}
 }

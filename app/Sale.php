@@ -47,10 +47,11 @@ class Sale extends Model
                     'description',
                     'quantity',
                     'description',
+                    'extended',
                     'pst',
                     'gst',
                     'total',
                     'comment',
-                ]);
+                ])->orderByDesc('created_at');
     }
 }

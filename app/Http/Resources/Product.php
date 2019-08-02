@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Category;
+use App\Http\Resources\SaleCollection;
 
 class Product extends JsonResource
 {
@@ -30,7 +31,10 @@ class Product extends JsonResource
 			'order_number' => $this->when($this->order_number, $this->order_number),
 			'created' => $this->when($this->created_at, (string) $this->created_at),
 			'updated' => $this->when($this->updated_at, (string) $this->updated_at),
-			'category' => new Category($this->whenLoaded('category'))
+			'category' => new Category($this->whenLoaded('category')),
+			'sales' => $this->whenLoaded('sales', function () {
+                return new ProductSaleCollection($this->sales);
+            }),
 		];
 	}
 }

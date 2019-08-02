@@ -27,7 +27,7 @@ class ProductController extends ApiController
 		ProductResource::withoutWrapping();
 
 		$product = QueryBuilder::for(Product::class)
-			->allowedIncludes(['category'])
+			->allowedIncludes(['category', 'sales'])
 			->allowedFields([
 				'id', 'sku', 'description', 'price',
 				'sale_price', 'pst', 'gst', 'image',
@@ -35,6 +35,7 @@ class ProductController extends ApiController
 				'created_at', 'updated_at'
 			])
 			->where('sku', $id)
+			->latest()
 			->firstOrFail();
 
 		return new ProductResource($product);

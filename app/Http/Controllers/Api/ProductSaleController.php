@@ -46,7 +46,7 @@ class ProductSaleController extends Controller
             array_push($valid, $validator->validated());
         }
 
-        $sale->products()->attach($valid, ['location_id' => $locationID, 'sale_id' => $sale->id]);
+        $sale->products()->attach($valid, ['location_id' => $locationID, 'sale_id' => $sale->id, 'created_at' => \Carbon\Carbon::now(), 'updated_at' => \Carbon\Carbon::now()]);
 
         return response()->json(['message' => 'okay'], JsonResponse::HTTP_OK);
     }

@@ -33,6 +33,10 @@ class PartOrderController extends ApiController
 			->oldest()
 			->get();
 
+		if (count($partOrders) == 0) {
+			return response()->json(['message' => 'not found'], JsonResponse::HTTP_NOT_FOUND);
+		}
+
 		return new PartOrderCollection($partOrders);
 	}
 
@@ -89,6 +93,7 @@ class PartOrderController extends ApiController
 			->allowedIncludes(['location', 'sales', 'staff', 'customer', 'sales.products'])
 			->where('location_id', '=', auth()->user()->id)
 			->findOrFail($id);
+
 
 		return new PartOrderResource($partOrder);
 	}
