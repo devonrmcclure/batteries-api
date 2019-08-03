@@ -20,7 +20,7 @@ class Product extends JsonResource
 			'product_id' => $this->id,
 			'sku' => $this->when($this->sku, $this->sku),
 			'description' => $this->when($this->description, $this->description),
-			'price' => $this->when($this->unit_price, $this->unit_price),
+			'price' => $this->unit_price,
 			'sale_price' => $this->when($this->unit_sale_price, $this->unit_sale_price),
 			'is_pst' => $this->pst,
 			'is_gst' => $this->gst,

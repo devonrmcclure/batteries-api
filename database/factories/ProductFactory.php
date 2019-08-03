@@ -5,7 +5,7 @@ use Faker\Generator as Faker;
 $factory->define(\App\Product::class, function (Faker $faker) {
 	$categories = App\Category::all();
     return [
-		'sku' => random_int(1, 100),
+		'sku' => random_int(1, 1000),
 		'description' => str_random(100),
 		'unit_price' => random_int(100, 10000),
 		'unit_sale_price' => 0,

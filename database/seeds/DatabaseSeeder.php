@@ -13,22 +13,12 @@ class DatabaseSeeder extends Seeder
 	{
 		$this->call(UsersTableSeeder::class);
 		$this->call(LocationsTableSeeder::class);
-		$this->call(CategoryTableSeeder::class);
-		$this->call(ProductTableSeeder::class);
-    	//$this->call(CategoryProductTableSeeder::class);
 		$this->call(StaffTableSeeder::class);
-		$this->call(CustomerTableSeeder::class);
-		$this->call(PartOrderTableSeeder::class);
-		//Reapir order (Y)
-		//Sales (Y)
-		//Products_Sales (pivot between products and sales) (y)
-		// Associated_Skus (for auto adding eco fee and whatnot)
-		//PartOrderSales (y)
-		//RepairOrderSales (Y)
-		//DailyClosings (Y)
-		//MonthlySales (Y)
-		//YearlySales (Y)
-		//OnHandQuantities (Y)
-		//Sales_Settings
-	}
+        $this->call(CustomersTableSeeder::class);
+		$this->call(CategoryTableSeeder::class);
+		$this->call(ProductsTableSeeder::class);
+	    $this->call(ProductsTableSeeder::class);
+        $this->call(PaymentMethodsTableSeeder::class);
+        $this->call(SaleSettingsTableSeeder::class);
+    }
 }

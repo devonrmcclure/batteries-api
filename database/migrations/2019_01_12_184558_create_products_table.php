@@ -18,14 +18,14 @@ class CreateProductsTable extends Migration
             $table->string('sku')->unique();
             $table->string('description');
             $table->integer('unit_price');
-            $table->integer('unit_sale_price');
+            $table->integer('unit_sale_price')->nullable();
             $table->boolean('pst');
             $table->boolean('gst');
-            $table->string('image');
-            $table->string('brand');
+            $table->string('image')->nullable();
+            $table->string('brand')->nullable();
             $table->string('manufacturer');
             $table->string('model_number');
-            $table->string('order_number');
+            $table->string('order_number')->nullable();
             $table->integer('last_purchase_vendor')->nullable();
             $table->integer('current_purchase_vendor')->nullable();
             $table->unsignedInteger('category_id')->nullable();

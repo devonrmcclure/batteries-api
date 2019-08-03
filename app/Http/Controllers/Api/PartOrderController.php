@@ -22,6 +22,10 @@ class PartOrderController extends ApiController
 			->latest()
 			->get();
 
+		if (count($partOrders) == 0) {
+			return response()->json(['message' => 'not found'], JsonResponse::HTTP_NOT_FOUND);
+		}
+
 		return new PartOrderCollection($partOrders);
 	}
 
