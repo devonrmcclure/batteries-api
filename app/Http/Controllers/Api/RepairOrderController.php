@@ -18,10 +18,16 @@ class RepairOrderController extends ApiController
         $repairOrders = QueryBuilder::for(RepairOrder::class)
             ->allowedIncludes(['location', 'sales', 'staff', 'customer'])
             ->where('location_id', '=', auth()->user()->id)
-			->jsonPaginate();
+            ->get();
+
+        if (count($repairOrders) == 0) {
+            return response()->json(['message' => 'not found'], JsonResponse::HTTP_NOT_FOUND);
+        }
 
 		return new RepairOrderCollection($repairOrders);
     }
+
+    
 
     public function store(Request $request)
     {
@@ -143,10 +149,10 @@ class RepairOrderController extends ApiController
     {
         $repairOrders = QueryBuilder::for(RepairOrder::class)
             ->allowedIncludes(['location', 'sales', 'staff', 'customer'])
-            ->latest()
             ->where('location_id', '=', auth()->user()->id)
-            ->where('from_ho', null)
-            ->limit(5)
+			->where('from_ho', '=', null)
+            ->orWhere('from_ho', null)
+            ->oldest()
 			->get();
 
 		return new RepairOrderCollection($repairOrders);

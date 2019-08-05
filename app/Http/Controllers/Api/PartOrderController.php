@@ -33,7 +33,8 @@ class PartOrderController extends ApiController
 		$partOrders = QueryBuilder::for(PartOrder::class)
 			->allowedIncludes(['location', 'sales', 'staff', 'customer'])
 			->where('location_id', '=', auth()->user()->id)
-			->where('picked_up', '=', null)
+			->where('from_ho', '=', null)
+			->orWhere('picked_up', '=', null)
 			->oldest()
 			->get();
 
@@ -96,7 +97,8 @@ class PartOrderController extends ApiController
 		$partOrder = QueryBuilder::for(PartOrder::class)
 			->allowedIncludes(['location', 'sales', 'staff', 'customer', 'sales.products'])
 			->where('location_id', '=', auth()->user()->id)
-			->findOrFail($id);
+			->where('order_number', $id)
+			->firstOrFail();
 
 
 		return new PartOrderResource($partOrder);
